@@ -1,0 +1,24 @@
+TestClassOne:
+    type: object
+    required: 
+        - textOne
+    properties:
+        textOne:
+            description: 'one'
+            type: string
+TestClassTwo:
+    allOf:
+        - $ref: '#/definitions/TestClassOne'
+        - type: object
+          properties:
+            textTwo:
+                description: 'two'
+                type: string
+TestClassThree:
+    allOf:
+        - $ref: '#/definitions/TestClassTwo'
+        - type: object
+          properties:
+            textThree:
+                description: 'three'
+                type: string

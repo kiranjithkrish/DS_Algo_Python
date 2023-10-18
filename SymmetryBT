@@ -1,0 +1,77 @@
+# This is an input class. Do not edit.
+class BinaryTree:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+def symmetricalTree(tree):
+    left = tree.left
+    right = tree.right
+    return symmetricalTreeH(left, right)
+
+def symmetricalTreeH(left, right):
+    if left and right and left.value == right.value:
+        leftT =  symmetricalTreeH(left.left, right.right)
+        rightT = symmetricalTreeH(left.right, right.left)
+        return leftT and rightT
+    return left == right
+
+def symmetricalTreeResursion(tree):
+    inOrderList = inorder(tree, [])
+    postOrderList = postOrder(tree, [])
+    True if inOrderList == postOrderList else False
+
+
+def inorder(tree, inOrderList):
+    if tree is None:
+        return
+    inorder(tree.left, inOrderList)
+    inOrderList.append(tree.value)
+    inorder(tree.right, inOrderList)
+    return inOrderList
+
+def postOrder(tree, postOrderList):
+    if tree is None:
+        return
+    postOrder(tree.right, postOrderList)
+    postOrderList.append(tree.value)
+    postOrder(tree.left, postOrderList)
+    return postOrderList
+
+
+def symmetricalTreeIterative(tree):
+    left = tree.left
+    right = tree.right
+    if left and right and left.value != right.value:
+        return False
+    leftStack = [left]
+    rightStack = [right]
+    while leftStack:
+        nodeL = leftStack.pop()
+        nodeR = rightStack.pop()
+        if nodeL is None and nodeR is None:
+            continue
+        if nodeR is None or nodeL is None:
+            return False
+        if nodeR.right and nodeL.left and  nodeR.right.value != nodeL.left.value: 
+            return False
+        leftStack.append(nodeL.left)
+        rightStack.append(nodeR.right)
+        if nodeR.left and nodeL.right and nodeR.left.value != nodeL.right.value:
+            return False
+        leftStack.append(nodeL.right)
+        rightStack.append(nodeR.left)
+    return True
+
+
+
+root = BinaryTree(1)
+root.left = BinaryTree(2)
+root.right = BinaryTree(2)
+root.left.left = BinaryTree(3)
+root.left.right = BinaryTree(4)
+root.right.right = BinaryTree(3)
+root.right.left = BinaryTree(4)
+
+symmetricalTree(root)
